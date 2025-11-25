@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal | Percy Willy Muñoz Chavez</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #33ff00;
+            --prompt-color: #00bfff;
+            --error-color: #ff3333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        #terminal {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .intro {
+            color: #ffffff;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .output-line {
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+        .prompt {
+            color: var(--prompt-color);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: inherit;
+            flex-grow: 1;
+            outline: none;
+        }
+        .command-list {
+            color: #ffffff;
+            margin-top: 10px;
+        }
+        a { color: var(--prompt-color); text-decoration: none; border-bottom: 1px dashed; }
+        a:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <div class="intro">
+██████╗ ███████╗██████╗  ██████╗██╗   ██╗
+██╔══██╗██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝
+██████╔╝█████╗  ██████╔╝██║      ╚████╔╝ 
+██╔═══╝ ██╔══╝  ██╔══██╗██║       ╚██╔╝  
+██║     ███████╗██║  ██║╚██████╗   ██║   
+╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   
+                                         
+Bienvenido al CV interactivo v1.0.0
+Usuario: Percy Willy Muñoz Chavez (Ingeniero de Software)
+Escribe 'help' para ver los comandos disponibles.
+        </div>
+        <div id="history"></div>
+        <div class="input-line">
+            <span class="prompt">visitor@percy-cv:~$</span>
+            <input type="text" id="userInput" autocomplete="off" autofocus>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('userInput');
+        const history = document.getElementById('history');
+
+        // --- DATOS DEL CV ---
+        const data = {
+            about: `
+> PERFIL PROFESIONAL
+Ingeniero de Software especializado en el ecosistema .NET. 
+Me enfoco en construir sistemas robustos y escalables utilizando Domain-Driven Design (DDD) y Arquitectura Limpia.
+Actualmente desarrollando soluciones SaaS para el sector salud (HIS).`,
+            
+            skills: `
+> HABILIDADES TÉCNICAS
+* Backend: C#, .NET 8, Entity Framework Core, Web API.
+* Arquitectura: Clean Architecture, DDD, CQRS, Microservicios (Básico).
+* Cloud & DevOps: Azure (AZ-900 en progreso), Docker, CI/CD.
+* Bases de Datos: SQL Server, PostgreSQL.
+* Herramientas: Git, n8n (Automatización).`,
+
+            projects: `
+> PROYECTOS DESTACADOS
+1. SaaS HIS (En desarrollo)
+   Sistema de gestión para centros médicos y consultorios. 
+   Stack: .NET, Clean Architecture, Multi-tenant.
+   
+2. Módulo de Registro de Pacientes
+   Implementación de un dominio rico (no anémico) para validaciones clínicas complejas.`,
+
+            interests: `
+> INTERESES
+* Diseño y construcción de mobiliario en melamina.
+* Automatización de flujos de trabajo.
+* Cultura: Danza Negritos de Huánuco.
+* Deportes: Seguidor de Universitario de Deportes.`,
+
+            contact: `
+> CONTACTO
+Email: (Tu email aquí)
+GitHub: <a href="https://github.com/TU_USUARIO" target="_blank">github.com/TU_USUARIO</a>
+LinkedIn: <a href="https://linkedin.com/in/TU_USUARIO" target="_blank">linkedin.com/in/TU_USUARIO</a>`
+        };
+
+        // --- LÓGICA DEL TERMINAL ---
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const command = input.value.trim().toLowerCase();
+                processCommand(command);
+                input.value = '';
+            }
+        });
+
+        function processCommand(cmd) {
+            const div = document.createElement('div');
+            // Muestra lo que el usuario escribió
+            div.innerHTML = `<span class="prompt">visitor@percy-cv:~$</span> ${cmd}`;
+            history.appendChild(div);
+
+            const output = document.createElement('div');
+            output.className = 'output-line';
+
+            switch(cmd) {
+                case 'help':
+                    output.innerHTML = `Comandos disponibles:
+  <span style="color:#fff">about</span>     - Quién soy y qué hago
+  <span style="color:#fff">skills</span>    - Mis habilidades técnicas
+  <span style="color:#fff">projects</span>  - Proyectos destacados
+  <span style="color:#fff">interests</span> - Hobbies e intereses personales
+  <span style="color:#fff">contact</span>   - Cómo contactarme
+  <span style="color:#fff">clear</span>     - Limpiar la pantalla`;
+                    break;
+                case 'about':
+                    output.innerText = data.about;
+                    break;
+                case 'skills':
+                    output.innerHTML = data.skills.replace(/\n/g, '<br>');
+                    break;
+                case 'projects':
+                    output.innerText = data.projects;
+                    break;
+                case 'interests':
+                    output.innerHTML = data.interests.replace(/\n/g, '<br>');
+                    break;
+                case 'contact':
+                    output.innerHTML = data.contact.replace(/\n/g, '<br>');
+                    break;
+                case 'clear':
+                    history.innerHTML = '';
+                    return; // No agregamos output si limpiamos
+                case '':
+                    return;
+                default:
+                    output.innerHTML = `<span style="color:var(--error-color)">Comando no encontrado: ${cmd}. Escribe 'help' para ver la lista.</span>`;
+            }
+
+            history.appendChild(output);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        
+        // Enfocar siempre el input
+        document.addEventListener('click', () => input.focus());
+    </script>
+</body>
+</html>
