@@ -3,184 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal | Percy Willy Muñoz Chavez</title>
+    <title>CV | Percy Willy Muñoz Chavez</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-color: #1e1e1e;
-            --text-color: #33ff00;
-            --prompt-color: #00bfff;
-            --error-color: #ff3333;
+            --primary: #2563eb; /* Azul moderno */
+            --dark: #1e293b;    /* Gris oscuro para textos */
+            --sidebar-bg: #f8fafc; /* Gris muy claro para la barra lateral */
+            --text-light: #64748b;
+            --white: #ffffff;
         }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; }
+        
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* Fondo general web */
             margin: 0;
-            padding: 20px;
-            font-size: 16px;
-            line-height: 1.5;
+            padding: 40px 0;
+            color: var(--dark);
         }
-        #terminal {
-            max-width: 900px;
+
+        /* Contenedor Principal (Hoja A4) */
+        .cv-container {
+            background: var(--white);
+            width: 210mm; /* Ancho A4 */
+            min-height: 297mm; /* Alto A4 */
             margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 30% 70%; /* Barra lateral 30%, Principal 70% */
         }
-        .intro {
-            color: #ffffff;
+
+        /* --- BARRA LATERAL (IZQUIERDA) --- */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            padding: 40px 25px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .contact-info { margin-top: 30px; }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .contact-item i {
+            color: var(--primary);
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        .section-title-sm {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+            margin: 40px 0 20px 0;
+            font-weight: 800;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0 5px 8px 0;
+            font-weight: 600;
+        }
+
+        /* --- CONTENIDO PRINCIPAL (DERECHA) --- */
+        .main-content {
+            padding: 40px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+
+        h2 {
+            margin: 5px 0 20px 0;
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .summary {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            font-weight: 800;
             margin-bottom: 20px;
-            white-space: pre-wrap;
-        }
-        .output-line {
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-        }
-        .input-line {
             display: flex;
             align-items: center;
         }
-        .prompt {
-            color: var(--prompt-color);
+
+        .section-title i {
             margin-right: 10px;
-            font-weight: bold;
+            color: var(--primary);
         }
-        input {
-            background: transparent;
+
+        .experience-item {
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        .exp-title { font-weight: 700; color: var(--dark); }
+        .exp-company { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+        .exp-date { font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px; display: block; }
+        .exp-desc { font-size: 0.9rem; color: var(--text-light); margin: 0; line-height: 1.5; }
+        
+        .exp-desc ul { padding-left: 15px; margin: 5px 0; }
+
+        /* --- BOTÓN DE DESCARGA (FLOTANTE) --- */
+        .download-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: white;
             border: none;
-            color: var(--text-color);
-            font-family: inherit;
-            font-size: inherit;
-            flex-grow: 1;
-            outline: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
         }
-        .command-list {
-            color: #ffffff;
-            margin-top: 10px;
+        
+        .download-btn:hover { transform: translateY(-3px); }
+
+        /* --- ESTILOS DE IMPRESIÓN (PDF) --- */
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            .cv-container {
+                width: 100%;
+                box-shadow: none;
+                min-height: auto;
+                display: grid; /* Mantener Grid */
+            }
+            .download-btn { display: none; }
+            
+            /* Forzar impresión de fondos (colores) */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            @page { margin: 0; size: auto; }
         }
-        a { color: var(--prompt-color); text-decoration: none; border-bottom: 1px dashed; }
-        a:hover { color: #fff; }
+
+        /* Responsivo Móvil */
+        @media (max-width: 768px) {
+            .cv-container { grid-template-columns: 1fr; width: 100%; }
+            .sidebar { border-right: none; border-bottom: 1px solid #e2e8f0; }
+        }
     </style>
 </head>
 <body>
-    <div id="terminal">
-        <div class="intro">
-██████╗ ███████╗██████╗  ██████╗██╗   ██╗
-██╔══██╗██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝
-██████╔╝█████╗  ██████╔╝██║      ╚████╔╝ 
-██╔═══╝ ██╔══╝  ██╔══██╗██║       ╚██╔╝  
-██║     ███████╗██║  ██║╚██████╗   ██║   
-╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   
-                                         
-Bienvenido al CV interactivo v1.0.0
-Usuario: Percy Willy Muñoz Chavez (Ingeniero de Software)
-Escribe 'help' para ver los comandos disponibles.
-        </div>
-        <div id="history"></div>
-        <div class="input-line">
-            <span class="prompt">visitor@percy-cv:~$</span>
-            <input type="text" id="userInput" autocomplete="off" autofocus>
-        </div>
+
+    <button class="download-btn" onclick="window.print()">
+        <i class="fas fa-file-pdf"></i> Guardar como PDF
+    </button>
+
+    <div class="cv-container">
+        <aside class="sidebar">
+            <div class="profile-photo">PM</div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>tu-email@ejemplo.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+51 999 999 999</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <span>/in/percy-munoz</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-github"></i>
+                    <span>github.com/percy</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lima, Perú</span>
+                </div>
+            </div>
+
+            <div class="section-title-sm">Hard Skills</div>
+            <div>
+                <span class="skill-tag">.NET 8 / C#</span>
+                <span class="skill-tag">Clean Architecture</span>
+                <span class="skill-tag">DDD</span>
+                <span class="skill-tag">SQL Server</span>
+                <span class="skill-tag">Azure (AZ-900)</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Web API</span>
+            </div>
+
+            <div class="section-title-sm">Automatización</div>
+            <div>
+                <span class="skill-tag">n8n workflows</span>
+                <span class="skill-tag">Integraciones API</span>
+            </div>
+
+            <div class="section-title-sm">Idiomas</div>
+            <div class="contact-item">Español (Nativo)</div>
+            <div class="contact-item">Inglés (Técnico)</div>
+
+            <div class="section-title-sm">Intereses</div>
+            <div style="font-size: 0.85rem; color: var(--text-light);">
+                • Diseño de muebles (Melamina)<br>
+                • Danza tradicional (Negritos de Huánuco)<br>
+                • Fútbol (Hincha de la 'U')
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Percy Willy Muñoz Chavez</h1>
+            <h2>Ingeniero de Software | .NET Backend Specialist</h2>
+            
+            <p class="summary">
+                Ingeniero de Software apasionado por construir sistemas escalables utilizando <strong>Clean Architecture</strong> y <strong>Domain-Driven Design (DDD)</strong>. 
+                Actualmente enfocado en el desarrollo de soluciones SaaS para el sector salud (HIS) y la automatización de procesos de negocio. 
+                Busco aportar valor mediante código limpio, mantenible y arquitecturas robustas en la nube de Azure.
+            </p>
+
+            <div class="section-title">
+                <i class="fas fa-briefcase"></i> Experiencia & Proyectos
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-title">Desarrollador SaaS HIS (Hospital Information System)</div>
+                <div class="exp-company">Proyecto Personal / Emprendimiento</div>
+                <span class="exp-date">Nov 2025 - Presente</span>
+                <div class="exp-desc">
+                    Diseño y desarrollo de un sistema de gestión para centros médicos y consultorios privados.
+                    <ul>
+                        <li>Arquitectura modular basada en <strong>Clean Architecture</strong> y principios SOLID.</li>
+                        <li>Implementación de multi-tenancy para modelo SaaS.</li>
+                        <li>Modelado de dominio rico para módulos clínicos complejos.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-title">Ingeniero de Software Backend</div>
+                <div class="exp-company">Empresa Anterior / Freelance</div>
+                <span class="exp-date">2023 - 2025</span>
+                <div class="exp-desc">
+                    Desarrollo de APIs RESTful utilizando .NET Core y Entity Framework.
+                    <ul>
+                        <li>Optimización de consultas SQL y diseño de base de datos.</li>
+                        <li>Integración de servicios Azure para despliegue continuo.</li>
+                        <li>Refactorización de código legado aplicando patrones de diseño.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i> Educación
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-title">Ingeniería de Software</div>
+                <div class="exp-company">Universidad (Nombre de tu Uni)</div>
+                <span class="exp-date">Egresado</span>
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-certificate"></i> Certificaciones
+            </div>
+             <div class="experience-item" style="border:none; padding-left:0;">
+                <div class="exp-title">Microsoft Certified: Azure Fundamentals</div>
+                <div class="exp-company">Microsoft (AZ-900)</div>
+                <span class="exp-date">En preparación</span>
+            </div>
+
+        </main>
     </div>
 
-    <script>
-        const input = document.getElementById('userInput');
-        const history = document.getElementById('history');
-
-        // --- DATOS DEL CV ---
-        const data = {
-            about: `
-> PERFIL PROFESIONAL
-Ingeniero de Software especializado en el ecosistema .NET. 
-Me enfoco en construir sistemas robustos y escalables utilizando Domain-Driven Design (DDD) y Arquitectura Limpia.
-Actualmente desarrollando soluciones SaaS para el sector salud (HIS).`,
-            
-            skills: `
-> HABILIDADES TÉCNICAS
-* Backend: C#, .NET 8, Entity Framework Core, Web API.
-* Arquitectura: Clean Architecture, DDD, CQRS, Microservicios (Básico).
-* Cloud & DevOps: Azure (AZ-900 en progreso), Docker, CI/CD.
-* Bases de Datos: SQL Server, PostgreSQL.
-* Herramientas: Git, n8n (Automatización).`,
-
-            projects: `
-> PROYECTOS DESTACADOS
-1. SaaS HIS (En desarrollo)
-   Sistema de gestión para centros médicos y consultorios. 
-   Stack: .NET, Clean Architecture, Multi-tenant.
-   
-2. Módulo de Registro de Pacientes
-   Implementación de un dominio rico (no anémico) para validaciones clínicas complejas.`,
-
-            interests: `
-> INTERESES
-* Diseño y construcción de mobiliario en melamina.
-* Automatización de flujos de trabajo.
-* Cultura: Danza Negritos de Huánuco.
-* Deportes: Seguidor de Universitario de Deportes.`,
-
-            contact: `
-> CONTACTO
-Email: (Tu email aquí)
-GitHub: <a href="https://github.com/TU_USUARIO" target="_blank">github.com/TU_USUARIO</a>
-LinkedIn: <a href="https://linkedin.com/in/TU_USUARIO" target="_blank">linkedin.com/in/TU_USUARIO</a>`
-        };
-
-        // --- LÓGICA DEL TERMINAL ---
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const command = input.value.trim().toLowerCase();
-                processCommand(command);
-                input.value = '';
-            }
-        });
-
-        function processCommand(cmd) {
-            const div = document.createElement('div');
-            // Muestra lo que el usuario escribió
-            div.innerHTML = `<span class="prompt">visitor@percy-cv:~$</span> ${cmd}`;
-            history.appendChild(div);
-
-            const output = document.createElement('div');
-            output.className = 'output-line';
-
-            switch(cmd) {
-                case 'help':
-                    output.innerHTML = `Comandos disponibles:
-  <span style="color:#fff">about</span>     - Quién soy y qué hago
-  <span style="color:#fff">skills</span>    - Mis habilidades técnicas
-  <span style="color:#fff">projects</span>  - Proyectos destacados
-  <span style="color:#fff">interests</span> - Hobbies e intereses personales
-  <span style="color:#fff">contact</span>   - Cómo contactarme
-  <span style="color:#fff">clear</span>     - Limpiar la pantalla`;
-                    break;
-                case 'about':
-                    output.innerText = data.about;
-                    break;
-                case 'skills':
-                    output.innerHTML = data.skills.replace(/\n/g, '<br>');
-                    break;
-                case 'projects':
-                    output.innerText = data.projects;
-                    break;
-                case 'interests':
-                    output.innerHTML = data.interests.replace(/\n/g, '<br>');
-                    break;
-                case 'contact':
-                    output.innerHTML = data.contact.replace(/\n/g, '<br>');
-                    break;
-                case 'clear':
-                    history.innerHTML = '';
-                    return; // No agregamos output si limpiamos
-                case '':
-                    return;
-                default:
-                    output.innerHTML = `<span style="color:var(--error-color)">Comando no encontrado: ${cmd}. Escribe 'help' para ver la lista.</span>`;
-            }
-
-            history.appendChild(output);
-            window.scrollTo(0, document.body.scrollHeight);
-        }
-        
-        // Enfocar siempre el input
-        document.addEventListener('click', () => input.focus());
-    </script>
 </body>
 </html>
